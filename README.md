@@ -10,12 +10,10 @@
 ## :page_with_curl: ordered
 ### 1.  Network Flow 
 ●개념<br>
-1. 용어<br>
-2. 조건<br>
- 
-●Network Flow  구현 방법<br>
-1. 에드몬드 카프(Edmonds-Karp)
-2. 포드 풀커슨(Ford-Fulkerson)
+●용어<br>
+●조건<br>
+●에드몬드 카프(Edmonds-Karp)<
+●포드 풀커슨(Ford-Fulkerson)
 
 ### 2. Ford-Fulkerson Algorithm
 ●구현 방법<br>
@@ -122,5 +120,14 @@ a → b 간선에서 유량이 10만큼 흐른다면 , 이것을 우리는 b →
 ![66](https://user-images.githubusercontent.com/101388379/165632646-e95c7058-39cf-443f-8814-bf87c3f19312.PNG)
 
 **하지만 이 그림에서처럼 유량은 Source → A → C  → Sink 의 경로로도 흐를 수 있고, 이 같은 경우 Source → A / A → C /C → Sink 간선들의 유량이 최대치이기 때문에, 더 이상 흐를 수 있는 증가 경로가 없어서 최대 유량의 값이 1이 되어버리고 만다. 이것은 오답이다. 컴퓨터가 <br> 만약 Source → A → Sink / Source → C → Sink 의 경로보다
-Source → A → C  → Sink를 먼저 탐색 하게 되면 Source → B 에 추가로 연결된 경로를 찾지 못하고 , 프로그램이 중지된다.**
+Source → A → C  → Sink를 먼저 탐색 하게 되면 Source → B 에 추가로 연결된 경로를 찾지 못하고 , 프로그램이 중지된다.** <br>
 
+---
+
+**이러한 문제점을 어떻게 해결하고 보완 할 수 있을까?**
+
+이때 우리는 위에서 잠시 설명한 '유량의 대칭' 법칙과 <br>
+에드몬드 카프(Edmonds-Karp) 알고리즘과 포드 풀커슨(Ford-Fulkerson) 알고리즘을 통해 효율적으로 유량의 최댓값을 구할 수 있다.
+밑에서 더 자세하게 설명하도록 하겠다.
+
+---
