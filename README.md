@@ -106,4 +106,21 @@ a → b 간선에서 유량이 10만큼 흐른다면 , 이것을 우리는 b →
 
 ---
 
+**이번에는 새로운 Network Flow의 그림을 가지고 왔다.** 
+![33](https://user-images.githubusercontent.com/101388379/165632026-d2cc3147-b362-4efd-a7a2-8a7bccca00cb.PNG)
+
+**이 그림에서 최대로 흐르는 유량의 양은 얼마일까?** 
+
+![55](https://user-images.githubusercontent.com/101388379/165631870-7cd9282a-cb4f-4bf7-a164-1224b34135b3.PNG)
+
+먼저 Source → A → Sink의 증가경로를 하나 생각한다. 이 경로에서 최소용량을 가진 간선의 값이 1이므로 1의 유량이 흐를 수 있다.<br>
+그리고 Source → C → Sink의 경로로도 흐를 수 있다.
+
+**더 이상 찾을 수 있는 증가경로가 없기에 , 이 그림에서 최대로 흐를 수 있는 유량의 양은 2이고 , 실제로 정답이다.
+컴퓨터가 항상 이런 최적의 경로를 먼저 탐색하여 정답을 맞추면 좋겠지만, 항상 그럴 수 만은 없다.**
+
+![66](https://user-images.githubusercontent.com/101388379/165632646-e95c7058-39cf-443f-8814-bf87c3f19312.PNG)
+
+**하지만 이 그림에서처럼 유량은 Source → A → C  → Sink 의 경로로도 흐를 수 있고, 이 같은 경우 Source → A / A → C /C → Sink 간선들의 유량이 최대치이기 때문에, 더 이상 흐를 수 있는 증가 경로가 없어서 최대 유량의 값이 1이 되어버리고 만다. 이것은 오답이다. 컴퓨터가 <br> 만약 Source → A → Sink / Source → C → Sink 의 경로보다
+Source → A → C  → Sink를 먼저 탐색 하게 되면 Source → B 에 추가로 연결된 경로를 찾지 못하고 , 프로그램이 중지된다.**
 
