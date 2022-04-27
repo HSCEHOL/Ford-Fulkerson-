@@ -13,7 +13,7 @@
 1. 용어<br>
 2. 조건<br>
  
-●네트워크 플로어 구현 방법<br>
+●Network Flow  구현 방법<br>
 1. 에드몬드 카프(Edmonds-Karp)
 2. 포드 풀커슨(Ford-Fulkerson)
 
