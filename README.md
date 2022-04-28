@@ -18,7 +18,7 @@
 ### 2. Ford-Fulkerson Algorithm
 ●구현 방법<br>
 ●실제 구현 with JAVA<br>
-●최악의 상황<br>
+●단점 / 최악의 상황<br>
 ●성능 분석<br>
 
 
@@ -131,7 +131,7 @@ Source → A → C  → Sink를 먼저 탐색 하게 되면 Source → B 에 추
 밑에서 더 자세하게 설명하도록 하겠다. <br><br>
 
 
- :mag:유량의 대칭법칙 / 최대 유량 알고리즘 종류와 순서
+ :mag:유량의 대칭법칙 / 최대 유량 알고리즘 종류
 ---
 
 위 그림에서 우리는 Source → A → C  → Sink 경로로 유량이 흐를때 , Source → A / A → C /C → Sink 간선들의 유량이 최대치이기 때문에
@@ -149,30 +149,159 @@ C → A의 간선이 열렸으므로 위 그림처럼 우리는 역간선을 이
 최대 유량이 2라는 정답이 나오게 된다. 우리는 이렇게 **'유량의 대칭법칙'** 을 이용해 역간선을 생성하고 최대 유량을 구하는 알고리즘을 구성하게 될 것이다.
 
 ---
-## 최대 유량 알고리즘 종류와 순서
-먼저 최대 유량 알고리즘을 진행 하는 순서는 다음과 같이 정리 할 수 있다.
-1. 존재하는 모든 간선과 역간선의 유량을 0으로 초기화 한다.
-2. 소스에서 싱크로 갈 수 있는, 잔여 용량이 남은 경로를 탐색한다. **(BFS or DFS)**
-3. 해당 경로에 존재하는 간선들의 잔여 용량 중, 가장 작은 값을 유량으로 흘려보낸다.
-4. 해당 유량에 음수값을 취한 후 , 역방향 간선에도 흘려보낸다. **(유량의 대칭법칙)**
-5. 잔여 용량이 남은 경로가 존재하지 않을때까지 위 과정을 반복한다.
-<br><br>
+# 최대 유량 알고리즘 종류 
 
-컴퓨터가 잔여 용량이 남은 경로를 탐색하는 방법은 두 가지가 있다. **BFS(너비 우선 탐색) 와 DFS(깊이 우선 탐색) 이다.**
-BFS(너비 우선 탐색)을 사용하여 탐색을 한다면 그것은 에드몬드 카프(Edmonds-Karp) 알고리즘을 사용한 것이고 , 
-DFS(깊이 우선 탐색)을 사용하여 탐색을 한다면 그것은 포드 풀커슨(Ford-Fulkerson) 알고리즘을 사용한 것이다. 
-두 종류의 알고리즘의 차이점은 탐색을 어떻게 하느냐이다. 
+컴퓨터가 잔여 용량이 남은 경로를 탐색하는 방법은 두 가지가 있다. **BFS(너비 우선 탐색) 와 DFS(깊이 우선 탐색) 이다.** 
+BFS(너비 우선 탐색)을 사용하여 탐색을 한다면 그것은 **에드몬드 카프(Edmonds-Karp) 알고리즘**을 사용한 것이고 , 
+DFS(깊이 우선 탐색)을 사용하여 탐색을 한다면 그것은 **포드 풀커슨(Ford-Fulkerson) 알고리즘**을 사용한 것이다. 
+두 종류의 알고리즘의 차이점은 탐색을 진행 하느냐이다. 
 
 우선 두가지 탐색법이 무엇인지 그림을 통해 간단하게 알아보겠다. 
 
 ![깊이 우선 탐색](https://user-images.githubusercontent.com/101388379/165643978-e5192b5e-c8f1-4833-8ddd-d06b31c9a1ce.PNG)
 ![너비우선탐색](https://user-images.githubusercontent.com/101388379/165643992-5ca59832-c6e1-4b8e-af58-e83a6312ca33.PNG)
 
+**깊이에 우선한다는 것**은 현재 간선에서 이동 가능한 다음 레벨의 간선을 확인한 후, 곧바로 현재 간선 위치를 선택된 다음의
+간선으로 변경한다는 것이다. 이때 , 다음 간선에서 원하는 결과를 찾지 못할 때 , 돌아올 수 있도록 현재 위치를 스택(Stack)
+을 사용하여 기억해야 한다. 그래서 보통 문제 해결에 있어 재귀함수의 형태를 사용하는 편이며 , 이전의 부모노드로 돌아오는
+과정을 백트래킹(Back-Tracking)이라고 한다.<br><br>
+
+**넓이에 우선한다는 것**은 현재 간선에서 이동 가능한(연결된) 다음 레벨의 간선들을 확인한 후, 다음 레벨의 간선들을 모두 큐(Queue)에 담는다. 이후, 큐에 담긴 간선 위치들을 하나씩 꺼내며 현재 간선 위치를 변경한다는 것입니다. 이에 따라 그래프의 레벨 순서대로 모든 간선들을 탐색하게 된다.<br><br>
+
 후에 성능분석을 진행하며 , 어느 알고리즘이 더 효율적인지 둘의 차이를 비교하겠지만, <br>
 지금은 처음 의도한 바와 같이 DFS(깊이 우선 탐색) 을 사용하는 포드 풀커슨(Ford-Fulkerson) 알고리즘을 먼저 집중적으로 다뤄보려고 한다.
  <br><br><br>
  
  
+ # :two: 포드 풀커슨(Ford-Fulkerson) 알고리즘
+### ●구현방법 <br>
+먼저 포드 풀커슨(Ford-Fulkerson) 알고리즘을 진행 하는 순서는 다음과 같이 정리 할 수 있다.
+1. 존재하는 모든 간선과 역간선의 유량을 0으로 초기화 한다.
+2. 소스에서 싱크로 갈 수 있는, 잔여 용량이 남은 경로를 **DFS**로 탐색한다.
+3. 해당 경로에 존재하는 간선들의 잔여 용량 중, 가장 작은 값을 유량으로 흘려보낸다.
+4. 해당 유량에 음수값을 취한 후 , 역방향 간선에도 흘려보낸다. **(유량의 대칭법칙)**
+5. 잔여 용량이 남은 경로가 존재하지 않을때까지 위 과정을 반복한다.<br><br>
+
+**만약 2번에서 탐색을 BFS(너비 우선 탐색)으로 진행하였다면 그것은 에드몬드 카프(Edmonds-Karp) 알고리즘이 된다.**
+<br><br>
 
 
-# :two: 포드 풀커슨(Ford-Fulkerson) 알고리즘
+
+---
+## 실제코드
+```java
+public class FordFulkerson {
+    private static int size = 702;
+    public static void main(String[] args) throws Exception {
+       
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+
+        int Capacity[][] = new int[size][size];
+        for(int i = 0 ; i < n ; i ++) {
+            st = new StringTokenizer(br.readLine());
+            int s = st.nextToken().charAt(0) -'A';
+            int e = st.nextToken().charAt(0) -'A';
+            int f = Integer.parseInt(st.nextToken());
+            Capacity[s][e] += f;
+            Capacity[e][s] += f;
+        }
+
+        // end of input
+        System.out.println(networkflow('A'-'A','Z'-'A',Capacity));
+    }
+
+    private static int networkflow(int start, int end, int[][] capacity) {
+
+        int size = capacity.length;
+        
+        int flow[][] = new int[size][size];
+
+        ArrayDeque<Integer> dq = new ArrayDeque<>();
+        int res = 0;
+        while(true) {
+            dq.clear();
+            int parent[] = new int[size];
+            for(int i = 0 ; i < size ; i++) {parent[i] = -1;}
+            dq.add(start); parent[start] = start;
+            while(!dq.isEmpty() && parent[end] == -1) {
+                int now = dq.poll();
+                for(int i = 0 ; i < size ; i++) {
+                    if(capacity[now][i]-flow[now][i]>0 && parent[i]== -1) {
+                        
+                        dq.add(i);
+                        parent[i] = now;
+                    }
+                }
+            }
+
+
+            if(parent[end]==-1) {
+                break;
+                
+            }
+
+            
+            int flowamount = 2147000000;
+
+            for(int s = end ; s != start ; s = parent[s]) {
+                
+                flowamount = Math.min(flowamount, capacity[parent[s]][s] - flow[parent[s]][s]);
+            }
+
+            for(int s = end ; s!= start ; s = parent[s]) {
+                // 부모 -> 자식으로 flowamount가 흐르면 자식->부모로 -flowamount가 흐른다.
+                flow[parent[s]][s] +=flowamount;
+                flow[s][parent[s]] -=flowamount;
+            }
+            res+=flowamount;
+
+        }
+        return res;
+
+    }
+} 
+```
+
+**코드를 통해 복잡한 NetworkFlow 문제를 한번 풀어보며 , 코드가 옳게 작성 되었는지 확인해보자.**
+![슬라이드0001](https://user-images.githubusercontent.com/101388379/165650937-3fa37eb4-fe66-499e-b0f8-6bfd01fec331.png)
+
+**위와 같은 그래프가 주어졌다. S는 Source , T는 Sink 이다.**
+**위 그래프를** **"유량의 대칭법칙"** **을 이용하여 최대 유량의 값을 찾아보면**
+![슬라이드0011](https://user-images.githubusercontent.com/101388379/165651285-204a66b8-696b-4b2c-a9c1-942867196144.png)
+
+![슬라이드0012](https://user-images.githubusercontent.com/101388379/165651362-0eea5e1f-119c-442b-ab5c-8589a57d8ce6.png)
+    <br> **2 → 3 역간선을 만들어주고 , S → 1 → 2 → 3 → 4 → T로 다시 흘려주는 것을 볼 수 있다.**
+**그 결과 최대 유량의 값을 20이 나온다는 것을 확인 할 수 있다. 이 문제를 코드를 통해 다시 풀고 결과를 확인해보자.**
+![결과 2](https://user-images.githubusercontent.com/101388379/165653353-63dfdc6c-9cbd-4f5d-b3dc-fb217a88b8a7.PNG)
+
+실제로 계산한 결과와 같은 값이 나온다는 것을 알 수 있다.
+
+---
+
+### ●포드 풀커슨(Ford-Fulkerson) 알고리즘 단점 / 최악의 상황
+
+![img](https://user-images.githubusercontent.com/101388379/165657521-03ce74e7-cffe-481b-b2ea-a1cf5a8c0214.png)<br>
+**이 그래프가 포드 풀커슨 알고리즘 , 최악의 상황을 만드는 그래프이다.**
+
+**이 그래프의 최대 유량 값을 코드를 통해 구해본다면** <br>
+
+![캡처66](https://user-images.githubusercontent.com/101388379/165657776-bfac6033-c70a-4e4a-8eef-f5e55314b0e3.PNG)<br>
+**2000이란 값이 나오고 , 실제로 정답이다. 프로그래밍을 통해 본다면 아무 문제가 없어보이지만,**
+**실제 2000이란 값이 도달하기까지의 수행과정에 있다. 그것은 바로 수행 횟수이다.**  <br><br>
+
+### ●위 그림에서, DFS 를 이용한 증가 경로 탐색은 아래와 같다. <br>
+A→B→C→D (1의 유량 보냄) <br>
+A→C→B→D (역간선을 이용해 1의 유량 보냄) <br>
+A→B→C→D (1의 유량 보냄) <br>
+A→C→B→D (역간선을 이용해 1의 유량 보냄) <br>
+반복 <br><br>
+
+위에 보면 알 수 있듯이  DFS(깊이 우선 탐색)을 탐색기법으로 사용하는 **포드 풀커슨 알고리즘**은
+증가경로 한개당 하나의 유량 밖에 보낼 수가 없다. 즉 DFS를 유량의 수만큼 사용해야하는 경우가 생기게 된다.
+위에서 우리는 프로그래밍을 통해 손쉽게 최대 유량이 2000이라는 것을 알아냈지만 , 실제로 컴퓨터는 총 2000번 증가경로에
+유량을 흘려보낸 것이다.
+
+
+
